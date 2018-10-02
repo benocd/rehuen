@@ -51,7 +51,6 @@ function renderTable(){
       tr.append("<td>" + fecha + "</td>");
       tr.append("<td>" + ds1[i].y + "</td>");
       tr.append("<td>" + ds2[i].y + "</td>");
-      console.log(ds1[i].x);
       $('#tablaDatos').append(tr);
   }
 }
@@ -73,78 +72,72 @@ function getDataSet(dataSet) {
       ds1.push(hash1);
       ds2.push(hash2);
     });
-
     renderTable();
-  });
+      var chart = new CanvasJS.Chart("chartContainer", {
+          animationEnabled: true,
+          title:{
+            text: "Sensores Rehuén"
+          },
+          axisX: {
+            valueFormatString: "DD MMM"
+          },
+          axisY: {
+            title: "Temperatura °C",
+            includeZero: false,
+            suffix: " °C"
+          },
+          legend:{
+            cursor: "pointer",
+            fontSize: 16,
+            itemclick: toggleDataSeries
+          },
+          toolTip:{
+            shared: true,
+            content: function(e){
+              var xVal = e.entries[0].dataPoint.x;
+              var yA = e.entries[0].dataPoint.y;
+              var yB = e.entries[1].dataPoint.y;
+
+              return xVal + '<br>' + 'Sensor -1m: ' + yA + '<br>' + 'Sensor 0m: ' + yB;
+              }
+          },
+          data: [{
+            name: "Sensor -1m",
+            type: "spline",
+            yValueFormatString: "#0.## °C",
+            showInLegend: true,
+            dataPoints: ds1
+          },
+          {
+            name: "Sensor 0m",
+            type: "spline",
+            yValueFormatString: "#0.## °C",
+            showInLegend: true,
+            dataPoints: ds2
+          }]
+        });
+        chart.render();
+        });
 }
+    
+    function toggleDataSeries(e){
+      if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+        e.dataSeries.visible = false;
+      }
+      else{
+        e.dataSeries.visible = true;
+      }
+      chart.render();
+    }
 
 window.onload = function () {
 
-var chart = new CanvasJS.Chart("chartContainer", {
-  animationEnabled: true,
-  title:{
-    text: "Sensores Rehuén"
-  },
-  axisX: {
-    valueFormatString: "DD MMM"
-  },
-  axisY: {
-    title: "Temperatura °C",
-    includeZero: false,
-    suffix: " °C"
-  },
-  legend:{
-    cursor: "pointer",
-    fontSize: 16,
-    itemclick: toggleDataSeries
-  },
-  toolTip:{
-    shared: true,
-    content: function(e){
-      var xVal = e.entries[0].dataPoint.x;
-      var yA = e.entries[0].dataPoint.y;
-      var yB = e.entries[1].dataPoint.y;
-
-      return xVal + '<br>' + 'Sensor -1m: ' + yA + '<br>' + 'Sensor 0m: ' + yB;
-      }
-  },
-  data: [{
-    name: "Sensor -1m",
-    type: "spline",
-    yValueFormatString: "#0.## °C",
-    showInLegend: true,
-    dataPoints: ds1
-  },
-  {
-    name: "Sensor 0m",
-    type: "spline",
-    yValueFormatString: "#0.## °C",
-    showInLegend: true,
-    dataPoints: ds2
-  }]
-});
-chart.render();
-
-function toggleDataSeries(e){
-  if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-    e.dataSeries.visible = false;
-  }
-  else{
-    e.dataSeries.visible = true;
-  }
-  chart.render();
-}
-
-$("#btn_updt").click(
-  function () {
-    var d = document.getElementById("dataset");
-    var strDS = d.options[d.selectedIndex].value;
-    getDataSet(strDS);
-    chart.options.data[0].dataPoints = ds1;
-    chart.options.data[1].dataPoints = ds2;
-    chart.render();
-  });
-
+    $("#btn_updt").click(
+      function () {
+        var d = document.getElementById("dataset");
+        var strDS = d.options[d.selectedIndex].value;
+        getDataSet(strDS);
+      });
 }
 </script>
 
@@ -202,8 +195,8 @@ $("#btn_updt").click(
     <div class="w3-row w3-padding">
       Cambiar de mes: &nbsp;
       <select id="dataset">
-        <option value="2018_10">Octubre 2018</option>
         <option value="2018_09">Septiembre 2018</option>
+        <option value="2018_10">Octubre 2018</option>
         <option value="2018_08">Agosto 2018</option>
         <option value="2018_07">Julio 2018</option>
       </select>
