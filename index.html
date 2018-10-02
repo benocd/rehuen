@@ -35,7 +35,10 @@ var ds1 = [];
 var ds2 = [];
 
 var fullDate = new Date()
-var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) : '0' + (fullDate.getMonth()+1);
+var twoDigitMonth = fullDate.getMonth()+"";
+  if(twoDigitMonth.length==1)	{
+    twoDigitMonth="0" +twoDigitMonth
+  };
 window.onload = getDataSet(fullDate.getFullYear()+'_'+twoDigitMonth);
 
 function renderTable(){
