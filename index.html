@@ -35,10 +35,12 @@ var ds1 = [];
 var ds2 = [];
 
 var fullDate = new Date()
-var twoDigitMonth = fullDate.getMonth()+"";
+var twoDigitMonth = fullDate.getMonth()+1+"";
   if(twoDigitMonth.length==1)	{
     twoDigitMonth="0" +twoDigitMonth
   };
+
+console.log("mes: "+twoDigitMonth);
 window.onload = getDataSet(fullDate.getFullYear()+'_'+twoDigitMonth);
 
 function renderTable(){
