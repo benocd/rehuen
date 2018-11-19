@@ -58,7 +58,7 @@ function renderTable(){
 }
 
 function getDataSet(dataSet) {
-  var dsURL = 'http://www.beno.cl/rehuen/json/'+dataSet+'.json';
+  var dsURL = 'https://www.beno.cl/rehuen/json/'+dataSet+'.json';
   $.getJSON(dsURL, function(data) {
     ds1 = [];
     ds2 = [];
