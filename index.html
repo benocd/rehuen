@@ -41,7 +41,7 @@ var twoDigitMonth = fullDate.getMonth()+1+"";
   };
 
 console.log("mes: "+twoDigitMonth);
-window.onload = getDataSet(fullDate.getFullYear()+'_'+twoDigitMonth);
+window.onload = getDataSet('2019_10');
 
 function renderTable(){
   $('#tablaDatos').empty();
@@ -197,7 +197,6 @@ window.onload = function () {
     <div class="w3-row w3-padding">
       Cambiar de mes: &nbsp;
       <select id="dataset">
-        <option value="2019_11">Noviembre 2019</option>
         <option value="2019_10">Octubre 2019</option>
         <option value="2019_09">Septiembre 2019</option>
         <option value="2019_08">Agosto 2018</option>
